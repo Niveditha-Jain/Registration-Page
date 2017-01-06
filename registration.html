@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Registration</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="author" content="Niveditha Jain">
+</head>
+<script src="http://code.jquery.com/jquery-1.7.min.js"></script>
+<style>
+*{
+    font-family: 'Open Sans', sans-serif;
+}
+p{
+    font-style: normal;
+}
+
+header{
+    text-align: center;
+    font-style: normal;
+}
+
+.registrationBox {
+  width :1200px;
+  height:850px;
+  border-color: #6A6D6F;
+  border-style: solid;
+  background-color:#FAFDFF;
+  border-radius: 15px;
+  margin-top :30px;
+  margin-left :100px;
+  margin-right :100px;
+}
+
+#left{
+   margin-left: 4px;
+   margin-top: 50px;
+   width:20%;
+   height :850px;
+   float: left;
+   font-size: small;
+   text-align: justify;
+}
+
+#center {
+  width:60%;
+  height :850px;
+  float: left;
+}
+
+#right {
+    width:20%;
+    margin-top: 60px;
+    margin-left: 75%;
+}
+
+
+#myForm {
+    margin: 0 auto;
+    width: 500px;
+}
+
+label {
+    /* To make sure that all labels have the same size and are properly aligned */
+    display: inline-block;
+    width: 200px;
+    text-align: right;
+
+}
+
+#textBox,meter,#userId,#ConfirmPassword,#email,#ConfirmEmail,#security1,#security2,#answer1,#answer2,#mobile{
+   margin-left: 14px;
+   margin-top: 20px;
+   width:250px;
+   height :20px;
+}
+
+
+#password{
+   margin-left: 14px;
+   margin-top: 20px;
+   width:250px;
+   height :20px;
+}
+
+
+#ad {
+    margin-top: 20px;
+}
+
+#address {
+   margin-left: 14px;
+   margin-top: 20px;
+   width:250px;
+   vertical-align: top;
+}
+
+#interestedAreas{
+   margin-left: 14px;
+   margin-top: 5px;
+   overflow-y: scroll;
+}
+
+button,#submitButton{
+    margin-left:60px;
+    margin-top: 20px;
+    width:150px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    border-style: solid;
+    border-color: #6A6D6F;
+    font-style: normal;
+}
+#ruleForPassword{
+  background-color: #625f63;
+  color:#ffffff;
+   display: none;
+}
+
+#strengthDescription{
+  color:#000000;
+}
+
+ul, li {
+    margin:0;
+    padding:0;
+    list-style-type:none;
+    margin:10px 20px;
+}
+
+h4{
+  font-size: small;
+}
+
+#password_req {
+    bottom:-75px;
+    bottom: -115px\9; /* IE Specific */
+    right:55px;
+    width:250px;
+    padding:15px;
+    background:#fefefe;
+    font-size:.875em;
+    border-radius:5px;
+    box-shadow:0 1px 3px #ccc;
+    border:1px solid #ddd;
+    display: none;
+}
+
+#password_req h4 {
+    margin:0 0 10px 0;
+    padding:0;
+}
+
+#password_req::before {
+    content: "\25C0";
+    position:absolute;
+    left: 69.5%;
+    color:#625f63;
+
+}
+
+.invalid {
+    background:url(images/cross.png) no-repeat 0 50%;
+    padding-left:22px;
+    line-height:24px;
+}
+.valid {
+    background:url(images/tick.png) no-repeat 0 50%;
+    padding-left:22px;
+    line-height:24px;
+}
+
+progress[value] {
+  -webkit-appearance: none;
+   appearance: none;
+   -moz-appearance: none;
+   margin-left: 14px;
+   margin-top: 20px;
+  width: 250px;
+  height: 20px;
+}
+
+
+
+/* Webkit based browsers*/
+progress[value="1"]::-webkit-progress-value { background: #e51616; }
+progress[value="2"]::-webkit-progress-value { background: #f7f26a; }
+progress[value="3"]::-webkit-progress-value { background: orange; }
+progress[value="4"]::-webkit-progress-value { background: green; }
+
+
+
+/* Gecko based browsers*/
+progress[value="1"]::-moz-progress-bar { background: #e51616; }
+progress[value="2"]::-moz-progress-bar { background: #f7f26a; }
+progress[value="3"]::-moz-progress-bar { background: orange; }
+progress[value="4"]::-moz-progress-bar { background: green; }
+
+#connection {
+  margin-left:510px;
+  width: 30%;
+  text-align:center;
+  padding: 0.3em;
+}
+
+.online {
+  background: #f2f2c9;
+  color: green;
+}
+
+.offline {
+  background: #f2f2c9;
+  color: red;
+}
+
+
+
+</style>
+
+
+</head>
+<body>
+<header><h3><b>Registration</b> </h3> </header>
+<hr>
+ <div id="connection"></div>
+ <div class="registrationBox">
+ <div id="left">
+ <p id="ruleForPassword">Must be between 7-20 charecters in length and include 4 alpha charecters; 1 numeric character(0-9) or 1 special character(!, #, $, %). The password is case sensitive and must not contain spaces or be the same as your user ID</p>
+ </div>
+ <div id="center">
+  <form id="myForm" action="#" onsubmit="return validate()">
+       <label> User Id:</label><input id="userId" type="text" required><br>
+       <label> Password:</label><input type="password" id="password" onkeyup="showPasswordStrength()" required><br>
+       <div id="strength" style="display:none;">
+       <label id="showStrength">Worst</label>
+       <progress id="meter" value="0" max="4"></progress><br>
+       </div>
+       <label> Verify Password:</label><input type="password" id="ConfirmPassword" placeholder="Same as above" required><span id="verify"class="invalid"></span><br>
+       <label> Email Address:</label><input id="email" type="text" required><br>
+       <label> Verify Email Address:</label><input id="ConfirmEmail" type="email" placeholder="Same as above" required><span id="verifyEmail"class="invalid"></span><br>
+       <label> Security Question:</label>
+       <input list="question" name="security" id="security1" placeholder="Select from dropdown" required>
+       <datalist id="question">
+           <option value="Sum of 2 + 3 =">
+           <option value="Sum of 100 + 200 =">
+           <option value="23 x 100 =">
+           <option value="Capital of India?">
+           <option value="Capital of USA?">
+       </datalist>
+       <label> Security Answer:</label><input id="answer1" type="text" required><br>
+      <label> Security Question:</label>
+       <input list="question" name="security" id="security2" placeholder="Select from dropdown" required>
+       <datalist id="question">
+           <option value="Sum of 2 + 3 =">
+           <option value="Sum of 100 + 200 =">
+           <option value="23 x 100 =">
+           <option value="Capital of India?">
+           <option value="Capital of USA?">
+       </datalist>
+       <label> Security Answer:</label><input id="answer2" type="text" required><br>
+       <label> Mobile:</label><input id="mobile" type="tel" class="mobile"><br>
+       <label id="ad">Address:</label><textarea id="address" rows="5" cols="50" name="address"></textarea>
+       <p>Areas you may be interested in,please select one or more:</p>
+       <textarea id="interestedAreas" rows="8" cols="73" name="area"></textarea>
+       <input id="submitButton" type="submit" value="Register">
+       <button type="submit" value="Submit" onclick="clearAndReset()">Cancel</button>
+  </form>
+  </div>
+  <div id="right">
+   <div id="password_req">
+    <h4>Password Requirements</h4>
+    <ul>
+        <li id="uppercase" class="invalid">1 upper-case letter</li>
+        <li id="lowercase" class="invalid">1 lower-case letter</li>
+        <li id="number" class="invalid">1 number</li>
+        <li id="length" class="invalid">7 or more characters</li>
+        <li id="letter" class="invalid">Should use only english charecters A-z,0-9,!,#,%,$</li>
+        <li id="userName" class="invalid">Password cannot be the same as user name</li>
+    </ul>
+  </div>
+<script>
+
+window.onload = checkNetworkStatus;
+
+function checkNetworkStatus(){
+   var status = document.getElementById("connection");
+   var condition = navigator.onLine ? "online" : "offline";
+    if(condition === "offline"){
+    status.className = condition;
+    status.innerHTML = "Internet connection is lost. You may try registering later.";
+    $('#connection').fadeIn();
+    status.scrollIntoView();
+    return false;
+   }
+  return true;
+}
+
+window.addEventListener("offline", checkNetworkStatus, false);
+
+window.addEventListener("online", function checkNetworkStatus(){
+   var status = document.getElementById("connection");
+   var condition = navigator.onLine ? "online" : "offline";
+    if(condition === "online"){
+    status.className = condition;
+    status.innerHTML = "Internet connection has been restored.";
+    status.scrollIntoView();
+    $('#connection').delay(3000).fadeOut();
+  }
+}, false);
+
+window.addEventListener("connectionerror", function(e) {
+  alert("There is a connection error");
+});
+
+
+function validateEmail() {
+   var emailVal = document.getElementById("email").value;
+   if(!(emailVal.match(/[a-z0-9._%+-\\$\\&\\*\\(\\:\\<\\>\\?)]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$/) )){
+      alert("Please enter valid email Id");
+      return false;
+   }
+   return true;
+}
+
+$(document).ready(function() {
+
+$('input[id=password]').keyup(function() {
+    var passwordValue = $(this).val();
+    var username = $('#userId').val();
+    var passwordLength = $(this).val().length;
+    //validate the length
+    if ( passwordValue.length < 7 ) {
+     $('#length').removeClass('valid').addClass('invalid');
+    } else {
+     $('#length').removeClass('invalid').addClass('valid');
+    }
+    //validate the uppercase
+    if ( passwordValue.match(/[A-Z]/) ) {
+    $('#uppercase').removeClass('invalid').addClass('valid');
+    } else {
+    $('#uppercase').removeClass('valid').addClass('invalid');
+    }
+
+    //validate the lowercase
+    if ( passwordValue.match(/[a-z]/) ) {
+    $('#lowercase').removeClass('invalid').addClass('valid');
+    } else {
+    $('#lowercase').removeClass('valid').addClass('invalid');
+    }
+    //validate number
+    if (passwordValue.match(/\d/) ) {
+    $('#number').removeClass('invalid').addClass('valid');
+    } else {
+    $('#number').removeClass('valid').addClass('invalid');
+    }
+
+    //password contains only valid letters
+    if (passwordValue.match(/^[A-Za-z0-9!#$%]+$/) ) {
+       $('#letter').removeClass('invalid').addClass('valid');
+    } else {
+       $('#letter').removeClass('valid').addClass('invalid');
+    }
+
+    //password not equal to userid
+    if (passwordValue===username ) {
+       $('#userName').removeClass('valid').addClass('invalid');
+    } else {
+       $('#userName').removeClass('invalid').addClass('valid');
+    }
+
+    var passwordScore =0;
+
+    if(passwordLength < 7){
+      passwordScore =1;
+    }
+    if(passwordLength >= 7){
+      passwordScore =2;
+    }
+    if (passwordLength >= 10 && passwordValue.match(/\d/)){
+      passwordScore=3;
+    }
+    if (passwordLength >= 15 && passwordValue.match(/[A-Za-z0-9!#$%]/)){
+      passwordScore=4;
+    }
+
+    $('#meter').val(passwordScore);
+
+}).focus(function() {
+      $('#password_req').show();
+      $('#ruleForPassword').show();
+      $('#strength').show();
+}).blur(function() {
+      $('#password_req').hide();
+      $('#ruleForPassword').hide();
+      $('#strength').hide();
+});
+
+});
+
+$(document).ready(function() {
+
+$('input[id=ConfirmPassword]').keyup(function() {
+  var confirmPass = $(this).val();
+  var password = $('#password').val();
+  if (confirmPass == password ) {
+       $('#verify').removeClass('invalid').addClass('valid');
+    } else {
+       $('#verify').removeClass('valid').addClass('invalid');
+    }
+
+}).focus(function() {
+      $('input[id=ConfirmPassword]').keyup();
+      $('#verify').show();
+}).blur(function() {
+      $('#verify').hide();
+});
+
+});
+
+$(document).ready(function() {
+
+$('input[id=ConfirmEmail]').keyup(function() {
+  var confirmEmail = $(this).val();
+  var email = $('#email').val();
+  if (confirmEmail == email ) {
+       $('#verifyEmail').removeClass('invalid').addClass('valid');
+    } else {
+       $('#verifyEmail').removeClass('valid').addClass('invalid');
+    }
+
+}).focus(function() {
+      $('input[id=ConfirmEmail]').keyup();
+      $('#verifyEmail').show();
+}).blur(function() {
+      $('#verifyEmail').hide();
+});
+
+});
+
+
+
+function showPasswordStrength(){
+   var passwordLength = document.getElementById("password").value.length;
+   var description;
+
+   if(passwordLength <7){
+     description = "Weak";
+    }
+    if(passwordLength >= 7 && passwordLength <= 10){
+     description = "Good";
+   }
+    if(passwordLength >= 10 && passwordLength < 15){
+     description = "Strong";
+   }
+   if(passwordLength >= 15){
+     description = "Very Strong";
+   }
+   document.getElementById("showStrength").innerHTML = description;
+}
+
+function validate(){
+
+   var status = checkNetworkStatus();
+   if(status === true) {
+   $('input[id=ConfirmPassword]').keyup();
+   $('input[id=ConfirmEmail]').keyup();
+
+   var statusEmail = validateEmail();
+   if(statusEmail === true){
+    saveDetailsToDB();
+    return(checkAllDone());
+     }
+   }
+   else{
+     saveDetailsToSession();
+     return false;
+   }
+
+}
+
+function saveDetailsToSession(){
+   var user = document.getElementById("userId").value;
+   sessionStorage.setItem("userName", user);
+   var password = document.getElementById("password").value;
+   var encryptedPassword = btoa(password);
+   sessionStorage.setItem("passwordVal", encryptedPassword);
+   var email = document.getElementById("email").value;
+   sessionStorage.setItem("email", email);
+   var question1 = document.getElementById("security1").value;
+   sessionStorage.setItem("securityQuestion1", question1);
+   var question2 = document.getElementById("security2").value;
+   sessionStorage.setItem("securityQuestion2", question2);
+   var answer1 = document.getElementById("answer1").value;
+   sessionStorage.setItem("securityAnswer1", answer1);
+   var answer2 = document.getElementById("answer2").value;
+   sessionStorage.setItem("securityAnswer2", answer2);
+   var mobile = document.getElementById("mobile").value;
+   sessionStorage.setItem("Mobile", mobile);
+   var address = document.getElementById("address").value;
+   sessionStorage.setItem("address", address);
+   var areas = document.getElementById("interestedAreas").value;
+   sessionStorage.setItem("areasInterested", areas);
+
+}
+
+function checkAllDone(){
+
+  var verifyPassword = false;
+  var verifyEmail = false;
+
+  var count = 0;
+
+   if(document.getElementById('uppercase').className == "valid"){
+    count ++;
+   }
+   if(document.getElementById('lowercase').className == "valid"){
+    count ++;
+   }
+
+   if(document.getElementById('number').className == "valid"){
+    count ++;
+   }
+
+   if(document.getElementById('letter').className == "valid"){
+    count ++;
+   }
+
+   if(document.getElementById('length').className == "valid"){
+    count ++;
+   }
+
+   if(document.getElementById('userName').className == "valid"){
+    count ++;
+   }
+
+   if(document.getElementById('verifyEmail').className == "valid"){
+    verifyEmail = true;
+    count ++;
+   }
+
+   if(document.getElementById('verify').className == "valid"){
+    verifyPassword = true;
+    count ++;
+   }
+   if(count == 8){
+    return true;
+   }
+   else{
+    if(verifyPassword === false){
+      alert("Password and verify password fields do not match");
+      return false;
+    }
+     if(verifyEmail === false){
+      alert("Email and verify email fields do not match");
+      return false;
+    }
+    alert("Please fulfill all Password Requirements");
+    return false;
+   }
+}
+
+
+function clearAndReset() {
+  document.getElementById("myForm").reset();
+}
+
+function saveDetailsToDB(){
+  var userid = $("#userId").val();
+  var password = $("#password").val();
+  var emailid = $("#email").val();
+  var security1 = $("#security1").val();
+  var security2 = $("#security2").val();
+  var answer1 = $("#answer1").val();
+  var answer2 = $("#answer2").val();
+  var mobileNo = $("#mobile").val();
+  var add = $("#address").val();
+  var areas = $("#interestedAreas").val();
+
+  var dataString = 'userid='+userid+'&password='+password+'&emailid='+emailid+'&security1='+security1+'&security2='+security2+'&answer1='+answer1+'&answer2='+answer2+'&mobileNo='+mobileNo+'&add='+add+'&areas='+areas;
+
+
+  console.log($("#answer1").val());
+
+  $.ajax({
+    type:'POST',
+    data:dataString,
+    url:'insert.php',
+    success:function(data) {
+      alert(data);
+    }
+  });
+}
+
+/*$(document).ready(function(){
+  if(checkNetworkStatus()){
+    $.ajax({
+    type:'GET',
+    url:'dbconnect.php',
+    success:function(data) {
+      alert(data);
+    }
+  });
+  }
+});*/
+
+</script>
+
+ </body>
+</html>
